@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./config/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=commit_crimes
+      - DB_USER=root
+      - DB_PASS=senha123
+      - ENV=development
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: senha123
+      MYSQL_DATABASE: commit_crimes
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./banco.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    command: --default-authentication-plugin=mysql_native_password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: senha123
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+
+volumes:
+  mysql_data: 

@@ -1,0 +1,88 @@
+Trabalho – Criação de Website Empresarial
+
+O trabalho será dividido em duas partes:
+
+· Criação da parte externa – Visual
+
+· Criação da parte Administrativa do site
+
+Trabalho 1 – Website de Empresa - Externo
+
+• O site da empresa deve ter pelo menos 4 páginas com imagens e texto, conforme indicado abaixo:
+
+Página principal, de apresentação da empresa, com informações gerais (login).
+
+Página Sobre com detalhes da empresa como fundação, proprietários, etc.
+
+Página de Produtos e/ou serviços.
+
+Página de novidades.
+
+• O site deve possuir menu de navegação em cada página do site.
+
+• As informações de produtos e novidades devem ser dinâmicas, alimentadas a partir do PHP e banco de dados MySQL.
+
+• Use o BootStrap para o design do site (sugestão)
+
+As páginas devem ser em HTML5, responsivas e utilizar Elementos Semânticos.
+
+
+Trabalho 2 – Website de Empresa - Administração
+
+• Construir o site de Administração.
+
+• Na tela inicial, criar um link para login. A sessão de Administrador deve ter usuário logado protegido por senha.
+
+CRUD para usuários;
+
+CRUD para Produtos e/ou serviços;
+
+CRUD para novidades;
+
+O controle de sessão deverá manter o usuário logado. Ter a possibilidade de efetuar logoff e invalidar a página. Invalidar após 2min de inatividade.
+
+As informações de produtos e novidades devem ser dinâmicas, alimentadas a partir do PHP e banco de dados MySQL.
+
+
+
+
+
+Integrantes do Grupo
+
+O trabalho pode ser desenvolvido:
+
+· Grupo de até 4 pessoas
+
+Pontuação:
+
+Páginas HTML responsivas com tags semânticas (2,5 pontos)
+
+Navegação funcionando corretamente (1,5 pontos)
+
+Controle de Sessão (1,5 pontos)
+
+Site Administrativo (2,5 pontos)
+
+Apresentação (2,0 pontos)
+
+
+Apresentação e entrega:
+
+Entrega:
+
+No Teams, até dia 02/07
+
+- Um arquivo Compactado com o site completo (Material de Upload)
+
+- O arquivo de criação do banco de dados
+
+- Um documento do Word com o nome de cada aluno
+
+- A apresentação ppt do grupo
+
+
+Apresentação:
+
+03/07 – todos os grupos
+
+10/07 – caso ocorra algum problema no primeiro dia.

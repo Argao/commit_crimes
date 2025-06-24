@@ -1,0 +1,22 @@
+FROM php:8.2-apache
+
+# Instalar extensões necessárias
+RUN docker-php-ext-install pdo pdo_mysql mysqli
+
+# Habilitar mod_rewrite
+RUN a2enmod rewrite
+
+# Configurar Apache para permitir .htaccess
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+
+# Definir diretório de trabalho
+WORKDIR /var/www/html
+
+# Copiar configuração do PHP
+COPY config/php.ini /usr/local/etc/php/
+
+# Definir permissões
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 755 /var/www/html
+
+EXPOSE 80 
