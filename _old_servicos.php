@@ -36,35 +36,7 @@ ob_start();
                             <h3 class="card-title"><?= htmlspecialchars($servico['titulo']) ?></h3>
                             <p class="card-description"><?= htmlspecialchars($servico['descricao']) ?></p>
                             
-                            <!-- Badge indicando nível de risco -->
-                            <?php 
-                            $badges = [
-                                'Refatoração' => ['🔮', 'Místico'],
-                                'Deploy' => ['🔥', 'Alto Risco'],
-                                'Hotfix' => ['⚡', 'Emergência'],
-                                'Suporte' => ['🌙', 'Noturno'],
-                                'Automação' => ['🤖', 'Caótico'],
-                                'Consultoria' => ['👻', 'Espiritual'],
-                                'Diagnóstico' => ['🔍', 'Investigativo'],
-                                'Aceleração' => ['🚀', 'Turbo'],
-                                'Anti-Bug' => ['🛡️', 'Defensivo'],
-                                'API' => ['🌀', 'Bizarro']
-                            ];
-                            
-                            $badge = null;
-                            foreach ($badges as $keyword => $info) {
-                                if (stripos($servico['titulo'], $keyword) !== false) {
-                                    $badge = $info;
-                                    break;
-                                }
-                            }
-                            
-                            if ($badge): ?>
-                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.5rem; background: #f8f9fa; border-radius: 0.5rem; font-size: 0.85rem;">
-                                    <span><?= $badge[0] ?></span>
-                                    <span style="color: var(--primary-color); font-weight: 600;"><?= $badge[1] ?></span>
-                                </div>
-                            <?php endif; ?>
+
                         </div>
                     <?php endforeach; ?>
                 </div>

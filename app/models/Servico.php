@@ -1,72 +1,67 @@
 <?php
 
-require_once __DIR__ . '/../config/Database.php';
+require_once __DIR__ . '/../core/Model.php';
 
-class Servico {
-    private $db;
-    private $table = 'servicos';
+class Servico extends Model {
+    protected $table = 'servicos';
 
     public function __construct() {
-        $database = new Database();
-        $this->db = $database->connect();
+        parent::__construct();
     }
 
-    public function getAll() {
-        try {
-            $query = "SELECT * FROM {$this->table} ORDER BY id ASC";
-            $stmt = $this->db->prepare($query);
-            $stmt->execute();
-            return $stmt->fetchAll();
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar serviços: " . $e->getMessage());
-        }
+    /**
+     * Buscar todos os serviços ordenados por ID
+     */
+    public function getAll($orderBy = 'id ASC') {
+        return parent::getAll($orderBy);
     }
 
-    public function getById($id) {
-        try {
-            $query = "SELECT * FROM {$this->table} WHERE id = :id";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetch();
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar serviço: " . $e->getMessage());
-        }
+    /**
+     * Buscar serviços em destaque para homepage
+     */
+    public function getFeatured($limit = 6) {
+        return $this->where('1=1', [], 'id ASC', $limit);
     }
 
-    public function create($data) {
-        try {
-            $query = "INSERT INTO {$this->table} (titulo, descricao) VALUES (:titulo, :descricao)";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':titulo', $data['titulo']);
-            $stmt->bindParam(':descricao', $data['descricao']);
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao criar serviço: " . $e->getMessage());
-        }
+    /**
+     * Buscar por palavra-chave no título ou descrição
+     */
+    public function search($keyword) {
+        $sql = "SELECT * FROM {$this->table} 
+                WHERE titulo LIKE :keyword 
+                OR descricao LIKE :keyword 
+                ORDER BY titulo ASC";
+        
+        $params = ['keyword' => "%{$keyword}%"];
+        return $this->query($sql, $params);
     }
 
-    public function update($id, $data) {
-        try {
-            $query = "UPDATE {$this->table} SET titulo = :titulo, descricao = :descricao WHERE id = :id";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->bindParam(':titulo', $data['titulo']);
-            $stmt->bindParam(':descricao', $data['descricao']);
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao atualizar serviço: " . $e->getMessage());
+    /**
+     * Validar dados do serviço
+     */
+    public function validate($data) {
+        $errors = [];
+
+        if (empty($data['titulo'])) {
+            $errors['titulo'] = 'Título é obrigatório';
+        } elseif (strlen($data['titulo']) > 100) {
+            $errors['titulo'] = 'Título deve ter no máximo 100 caracteres';
         }
+
+        if (empty($data['descricao'])) {
+            $errors['descricao'] = 'Descrição é obrigatória';
+        }
+
+        return $errors;
     }
 
-    public function delete($id) {
-        try {
-            $query = "DELETE FROM {$this->table} WHERE id = :id";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao deletar serviço: " . $e->getMessage());
-        }
+    /**
+     * Sanitizar dados antes de salvar
+     */
+    public function sanitizeData($data) {
+        return [
+            'titulo' => htmlspecialchars(trim($data['titulo']), ENT_QUOTES, 'UTF-8'),
+            'descricao' => htmlspecialchars(trim($data['descricao']), ENT_QUOTES, 'UTF-8')
+        ];
     }
 } 
